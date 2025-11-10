@@ -26,7 +26,7 @@ body {
 }
 
 .greeting {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-weight: 400;
     color: #666;
     margin-bottom: 40px;
@@ -34,6 +34,7 @@ body {
 
 .intro {
     font-size: 1.125rem;
+    font-weight: 400;
     color: #333;
     margin-bottom: 30px;
     line-height: 1.7;
@@ -41,6 +42,7 @@ body {
 
 .about {
     font-size: 1.125rem;
+    font-weight: 400;
     color: #333;
     line-height: 1.7;
 }
@@ -51,11 +53,7 @@ body {
         padding: 40px 20px;
     }
     
-    .greeting {
-        font-size: 1.1rem;
-        margin-bottom: 30px;
-    }
-    
+    .greeting,
     .intro,
     .about {
         font-size: 1rem;
@@ -67,10 +65,7 @@ body {
         padding: 30px 15px;
     }
     
-    .greeting {
-        font-size: 1rem;
-    }
-    
+    .greeting,
     .intro,
     .about {
         font-size: 0.95rem;
