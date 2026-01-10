@@ -5,12 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Photos - Alex Yang</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="photos.css">
 </head>
 <body>
     <div class="container">
         <h1>Alex Yang</h1>
         
-        <p>Photo gallery coming soon.</p>
+        <div class="carousel">
+            <button class="carousel-btn prev" onclick="moveCarousel(-1)">‹</button>
+            <div class="carousel-track">
+                <img src="https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?w=800" alt="Photo 1" onclick="openLightbox(0)">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800" alt="Photo 2" onclick="openLightbox(1)">
+                <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800" alt="Photo 3" onclick="openLightbox(2)">
+                <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800" alt="Photo 4" onclick="openLightbox(3)">
+                <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800" alt="Photo 5" onclick="openLightbox(4)">
+            </div>
+            <button class="carousel-btn next" onclick="moveCarousel(1)">›</button>
+        </div>
         
         <div class="nav">
             <a href="index.html">home</a>
@@ -18,5 +29,13 @@
             <a href="blog.html">blog</a>
         </div>
     </div>
+
+    <div id="lightbox" class="lightbox">
+        <div id="liquidGlassContainer"></div>
+        <button class="close-btn" onclick="closeLightbox()">×</button>
+        <img id="lightboxImg" src="" alt="">
+    </div>
+
+    <script type="module" src="photos.js"></script>
 </body>
 </html>
