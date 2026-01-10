@@ -4,14 +4,14 @@ import { Canvas, useFrame, useThree } from "https://esm.sh/@react-three/fiber@8.
 import { useTexture } from "https://esm.sh/@react-three/drei@9.88.0";
 import * as THREE from "https://esm.sh/three@0.158.0";
 
-let currentImageUrl = "https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?w=1200";
+let currentImageUrl = "photo1.png";
 
 const images = [
-  "https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?w=1200",
-  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200",
-  "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200",
-  "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200",
-  "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200"
+  "photo1.png",
+  "photo2.png",
+  "photo3.png",
+  "photo4.png",
+  "photo5.png"
 ];
 
 const LiquidGlass = ({ imageUrl }) => {
@@ -119,13 +119,6 @@ const Scene = ({ imageUrl }) => {
 };
 
 let root = null;
-
-// Carousel functionality
-window.moveCarousel = function(direction) {
-  const track = document.querySelector('.carousel-track');
-  const scrollAmount = 315;
-  track.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
-};
 
 // Lightbox functionality
 window.openLightbox = function(index) {
