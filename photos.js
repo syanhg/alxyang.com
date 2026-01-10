@@ -9,9 +9,7 @@ let currentImageUrl = "photo1.png";
 const images = [
   "photo1.png",
   "photo2.png",
-  "photo3.png",
-  "photo4.png",
-  "photo5.png"
+  "photo3.png"
 ];
 
 const LiquidGlass = ({ imageUrl }) => {
@@ -60,6 +58,18 @@ const LiquidGlass = ({ imageUrl }) => {
           vec2 d = abs(p) - b;
           return length(max(d,0.)) + min(max(d.x,d.y),0.);
       }
+      
+      float IconPhoto (vec2 uv) {
+          float c = 0.;
+          for (float i = 0.; i < 1.; i+=1./8.) {
+              vec2 u = uv;
+              u *= mat2(cos(i * 2. * PI), sin(-(i * 2. * PI)), sin(i * 2. * PI), cos(i * 2. * PI));
+              u += vec2(0., PX(40.));
+              float b = Box(u, vec2(PX(0.), PX(13.)));
+              c += S(PX(1.5), 0., b - PX(15.)) * .2;
+          }
+          return c;
+      }
 
       vec4 LiquidGlass (sampler2D tex, vec2 uv, float direction, float quality, float size) {
           vec2 radius = size/R;
@@ -74,14 +84,34 @@ const LiquidGlass = ({ imageUrl }) => {
           color /= quality * direction;
           return color;
       }
+      
+      vec4 Icon (vec2 uv) {
+          float box = Box(uv, vec2(PX(50.))),
+                boxShape = S(PX(1.5), 0., box - PX(50.)),
+                boxDisp = S(PX(35.), 0., box - PX(25.)),
+                boxLight = boxShape * S(0., PX(30.), box - PX(40.)),
+                icon = IconPhoto(uv);
+          return vec4(boxShape, boxDisp, boxLight, icon);
+      }
 
       void main() {
         vec2 uv = CoverUV(vUv, uRes, uTexRes);
         vec2 st = (gl_FragCoord.xy-.5*R)/R.y;
+        vec2 M  = uMouse * .5;
+        M.x *= uRes.x/uRes.y;
         
-        vec3 col = LiquidGlass(uTexture, uv, 16., 16., 35.).rgb * 0.5;
+        vec3 tex = texture2D(uTexture, uv).rgb;
+        
+        vec4 icon = Icon(st-M);
+    
+        vec2 uv2 = uv - M;
+        uv2 *= S(-.6, 1., icon.y);
+        uv2 += M;
 
-        gl_FragColor = vec4(col, 0.92);
+        vec3 col = mix(tex * .8, .1 + LiquidGlass(uTexture, uv2, 10., 10., 20.).rgb * .7, icon.x);
+        col += icon.z * .9 + icon.w;
+
+        gl_FragColor = vec4(col, 1.);
       }
   `
     }),
@@ -155,3 +185,14 @@ document.addEventListener('keydown', (e) => {
     window.closeLightbox();
   }
 });
+
+// Restart carousel animation when it ends
+const track = document.querySelector('.carousel-track');
+if (track) {
+  track.addEventListener('animationiteration', () => {
+    track.style.animation = 'none';
+    setTimeout(() => {
+      track.style.animation = 'scroll 30s linear infinite';
+    }, 10);
+  });
+}
