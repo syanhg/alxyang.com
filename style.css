@@ -53,7 +53,7 @@ a:hover {
 .quote-item {
     display: flex;
     gap: 40px;
-    margin-bottom: 40px;
+    margin-bottom: 25px;
     align-items: flex-start;
 }
 
