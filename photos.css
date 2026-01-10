@@ -5,8 +5,28 @@
     max-width: 700px;
     margin: 40px 0;
     overflow: hidden;
-    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.carousel::before,
+.carousel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 150px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.carousel::before {
+    left: 0;
+    background: linear-gradient(to right, #f5f5f5 0%, #f5f5f5 20%, transparent 100%);
+}
+
+.carousel::after {
+    right: 0;
+    background: linear-gradient(to left, #f5f5f5 0%, #f5f5f5 20%, transparent 100%);
+} black 10%, black 90%, transparent);
 }
 
 .carousel-track {
