@@ -79,10 +79,9 @@ const LiquidGlass = ({ imageUrl }) => {
         vec2 uv = CoverUV(vUv, uRes, uTexRes);
         vec2 st = (gl_FragCoord.xy-.5*R)/R.y;
         
-        vec3 tex = texture2D(uTexture, uv).rgb;
-        vec3 col = LiquidGlass(uTexture, uv, 12., 12., 25.).rgb * 0.6;
+        vec3 col = LiquidGlass(uTexture, uv, 16., 16., 35.).rgb * 0.5;
 
-        gl_FragColor = vec4(col, 0.85);
+        gl_FragColor = vec4(col, 0.92);
       }
   `
     }),
