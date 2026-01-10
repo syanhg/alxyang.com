@@ -1,198 +1,180 @@
-import React, { useRef, useEffect, useMemo } from "https://esm.sh/react@18.2.0";
-import { createRoot } from "https://esm.sh/react-dom@18.2.0/client";
-import { Canvas, useFrame, useThree } from "https://esm.sh/@react-three/fiber@8.15.0";
-import { useTexture } from "https://esm.sh/@react-three/drei@9.88.0";
-import * as THREE from "https://esm.sh/three@0.158.0";
+/* Carousel styles */
+.carousel {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    margin: 40px 0;
+    overflow: hidden;
+}
 
-let currentImageUrl = "photo1.png";
+.carousel::before,
+.carousel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 150px;
+    z-index: 2;
+    pointer-events: none;
+}
 
-const images = [
-  "photo1.png",
-  "photo2.png",
-  "photo3.png"
-];
+.carousel::before {
+    left: 0;
+    background: linear-gradient(to right, #f5f5f5 0%, #f5f5f5 20%, transparent 100%);
+}
 
-const LiquidGlass = ({ imageUrl }) => {
-  const texture = useTexture(imageUrl);
-  const { size } = useThree();
-  const { lerp } = THREE.MathUtils;
+.carousel::after {
+    right: 0;
+    background: linear-gradient(to left, #f5f5f5 0%, #f5f5f5 20%, transparent 100%);
+} black 10%, black 90%, transparent);
+}
 
-  const shaderArgs = useMemo(
-    () => ({
-      uniforms: {
-        uMouse: { value: { x: 0, y: 0 } },
-        uRes: { value: { x: size.width, y: size.height } },
-        uTexRes: {
-          value: { x: texture.source.data.width, y: texture.source.data.height }
-        },
-        uTexture: { value: texture }
-      },
-      vertexShader: /* glsl */ `
-      varying vec2 vUv;
-      void main() {
-        vUv = uv;
-        gl_Position = vec4( position, 1.0 );
-      }
-    `,
-      fragmentShader: /* glsl */ `
-      varying vec2 vUv;
-      uniform vec2 uRes;
-      uniform vec2 uTexRes;
-      uniform vec2 uMouse;
-      uniform sampler2D uTexture;
-      
-      #define PI    3.14159265
-      #define S     smoothstep
-      #define R     uRes
-      #define PX(a) a/R.y
-      
-      vec2 CoverUV(vec2 u, vec2 s, vec2 i) {
-          float rs = s.x / s.y;
-          float ri = i.x / i.y;
-          vec2 st = rs < ri ? vec2(i.x * s.y / i.y, s.y) : vec2(s.x, i.y * s.x / i.x);
-          vec2 o = (rs < ri ? vec2((st.x - s.x) / 2.0, 0.0) : vec2(0.0, (st.y - s.y) / 2.0)) / st;
-          return u * s / st + o;
-      }
+.carousel-track {
+    display: flex;
+    gap: 15px;
+    animation: scroll 30s linear infinite;
+}
 
-      float Box (vec2 p, vec2 b) {
-          vec2 d = abs(p) - b;
-          return length(max(d,0.)) + min(max(d.x,d.y),0.);
-      }
-      
-      float IconPhoto (vec2 uv) {
-          float c = 0.;
-          for (float i = 0.; i < 1.; i+=1./8.) {
-              vec2 u = uv;
-              u *= mat2(cos(i * 2. * PI), sin(-(i * 2. * PI)), sin(i * 2. * PI), cos(i * 2. * PI));
-              u += vec2(0., PX(40.));
-              float b = Box(u, vec2(PX(0.), PX(13.)));
-              c += S(PX(1.5), 0., b - PX(15.)) * .2;
-          }
-          return c;
-      }
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
 
-      vec4 LiquidGlass (sampler2D tex, vec2 uv, float direction, float quality, float size) {
-          vec2 radius = size/R;
-          vec4 color = texture2D(tex, uv);
+.carousel-track {
+    animation: scroll 30s linear infinite;
+}
 
-          for (float d = 0.; d < PI; d += PI/direction) {
-            for (float i = 1./quality; i <= 1.; i += 1./quality) {
-              color += texture(tex, uv + vec2(cos(d),sin(d)) * radius * i);		
-            }
-          }
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
 
-          color /= quality * direction;
-          return color;
-      }
-      
-      vec4 Icon (vec2 uv) {
-          float box = Box(uv, vec2(PX(50.))),
-                boxShape = S(PX(1.5), 0., box - PX(50.)),
-                boxDisp = S(PX(35.), 0., box - PX(25.)),
-                boxLight = boxShape * S(0., PX(30.), box - PX(40.)),
-                icon = IconPhoto(uv);
-          return vec4(boxShape, boxDisp, boxLight, icon);
-      }
+.carousel-track {
+    display: flex;
+    gap: 15px;
+    animation: scroll 30s linear infinite;
+}
 
-      void main() {
-        vec2 uv = CoverUV(vUv, uRes, uTexRes);
-        vec2 st = (gl_FragCoord.xy-.5*R)/R.y;
-        vec2 M  = uMouse * .5;
-        M.x *= uRes.x/uRes.y;
-        
-        vec3 tex = texture2D(uTexture, uv).rgb;
-        
-        vec4 icon = Icon(st-M);
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}/* Carousel styles */
+.carousel {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    margin: 40px 0;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 10px 0;
+    scrollbar-width: none;
+}
+
+.carousel-track::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel-track img {
+    flex: 0 0 auto;
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.carousel-track img:hover {
+    transform: scale(1.05);
+    opacity: 0.8;
+}
+
+/* Lightbox styles */
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.lightbox.active {
+    display: flex;
+}
+
+#liquidGlassContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+#lightboxImg {
+    position: relative;
+    z-index: 2;
+    max-width: 90%;
+    max-height: 90vh;
+    object-fit: contain;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+}
+
+.close-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 3;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 36px;
+    cursor: pointer;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: background 0.3s ease;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 1);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .carousel-track img {
+        width: 250px;
+        height: 170px;
+    }
     
-        vec2 uv2 = uv - M;
-        uv2 *= S(-.6, 1., icon.y);
-        uv2 += M;
-
-        vec3 col = mix(tex * .8, .1 + LiquidGlass(uTexture, uv2, 10., 10., 20.).rgb * .7, icon.x);
-        col += icon.z * .9 + icon.w;
-
-        gl_FragColor = vec4(col, 1.);
-      }
-  `
-    }),
-    [size, texture]
-  );
-
-  useFrame(({ pointer }) => {
-    shaderArgs.uniforms.uMouse.value.x = lerp(
-      shaderArgs.uniforms.uMouse.value.x,
-      pointer.x,
-      0.1
-    );
-    shaderArgs.uniforms.uMouse.value.y = lerp(
-      shaderArgs.uniforms.uMouse.value.y,
-      pointer.y,
-      0.1
-    );
-  });
-
-  return (
-    <mesh>
-      <planeGeometry args={[2, 2]} />
-      <shaderMaterial args={[shaderArgs]} transparent={true} />
-    </mesh>
-  );
-};
-
-const Scene = ({ imageUrl }) => {
-  return (
-    <Canvas dpr={[1, 2]}>
-      <LiquidGlass imageUrl={imageUrl} />
-    </Canvas>
-  );
-};
-
-let root = null;
-
-// Lightbox functionality
-window.openLightbox = function(index) {
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightboxImg');
-  const container = document.getElementById('liquidGlassContainer');
-  
-  lightboxImg.src = images[index];
-  currentImageUrl = images[index];
-  lightbox.classList.add('active');
-  document.body.style.overflow = 'hidden';
-  
-  // Initialize Three.js scene
-  if (root) {
-    root.unmount();
-  }
-  root = createRoot(container);
-  root.render(<Scene imageUrl={currentImageUrl} />);
-};
-
-window.closeLightbox = function() {
-  const lightbox = document.getElementById('lightbox');
-  lightbox.classList.remove('active');
-  document.body.style.overflow = '';
-  
-  if (root) {
-    root.unmount();
-    root = null;
-  }
-};
-
-// Close on escape key
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    window.closeLightbox();
-  }
-});
-
-// Restart carousel animation when it ends
-const track = document.querySelector('.carousel-track');
-if (track) {
-  track.addEventListener('animationiteration', () => {
-    track.style.animation = 'none';
-    setTimeout(() => {
-      track.style.animation = 'scroll 30s linear infinite';
-    }, 10);
-  });
+    .carousel-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 20px;
+    }
 }
