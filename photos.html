@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photos - Alex Yang</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="photos.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Alex Yang</h1>
+        
+        <div class="carousel">
+            <div class="carousel-track">
+                <img src="photo1.png" alt="Photo 1" onclick="openLightbox(0)">
+                <img src="photo2.png" alt="Photo 2" onclick="openLightbox(1)">
+                <img src="photo3.png" alt="Photo 3" onclick="openLightbox(2)">
+                <img src="photo4.png" alt="Photo 4" onclick="openLightbox(3)">
+                <img src="photo5.png" alt="Photo 5" onclick="openLightbox(4)">
+                <!-- Duplicates for infinite loop effect -->
+                <img src="photo1.png" alt="Photo 1" onclick="openLightbox(0)">
+                <img src="photo2.png" alt="Photo 2" onclick="openLightbox(1)">
+                <img src="photo3.png" alt="Photo 3" onclick="openLightbox(2)">
+                <img src="photo4.png" alt="Photo 4" onclick="openLightbox(3)">
+                <img src="photo5.png" alt="Photo 5" onclick="openLightbox(4)">
+            </div>
+        </div>
+        
+        <div class="nav">
+            <a href="index.html">home</a>
+            <a href="quotes.html">quotes</a>
+            <a href="blog.html">blog</a>
+        </div>
+    </div>
+
+    <div id="lightbox" class="lightbox">
+        <div id="liquidGlassContainer"></div>
+        <button class="close-btn" onclick="closeLightbox()">×</button>
+        <img id="lightboxImg" src="" alt="">
+    </div>
+
+    <script type="module" src="photos.js"></script>
+</body>
+</html>
