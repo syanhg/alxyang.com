@@ -42,7 +42,7 @@
     height: 200px;
     object-fit: cover;
     flex-shrink: 0;
-    cursor: none;
+    cursor: pointer;
     transition: opacity 0.3s;
 }
 
@@ -106,7 +106,7 @@
     height: 50px;
     border-radius: 50%;
     font-size: 28px;
-    cursor: none;
+    cursor: pointer;
     color: #666;
     display: flex;
     align-items: center;
